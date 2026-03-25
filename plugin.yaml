@@ -1,0 +1,7 @@
+name: favorite_chats
+title: Favorite Chats
+description: Star/favorite chats to pin them at the top of the sidebar list.
+version: 1.0.0
+settings_sections: []
+per_project_config: false
+per_agent_config: false

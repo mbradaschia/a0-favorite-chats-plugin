@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <script type="module">
+    import { store } from "/plugins/favorite_chats/webui/favorites-store.js";
+  </script>
+</head>
+
+<body>
+  <div x-data>
+    <template x-if="$store.favChats">
+      <div x-init="$store.favChats.init()"></div>
+    </template>
+  </div>
+
+  <style>
+    /* Star button: remove border/box-shadow from btn-icon-action, keep spacing */
+    .fav-star-btn {
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+    }
+
+    .fav-star-btn:hover {
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+    }
+
+    /* Favorited star: always visible + gold */
+    .device-pointer .chat-container .fav-star-btn.active,
+    .device-pointer .chat-container:hover .fav-star-btn.active {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      color: #f5a623;
+    }
+
+    /* Subtle divider between favorites and non-favorites */
+    .fav-divider {
+      list-style: none;
+      height: 0;
+      margin: 4px 12px;
+      border: none;
+      border-top: 1px solid var(--color-border);
+      opacity: 0.25;
+    }
+
+    .light-mode .fav-divider {
+      opacity: 0.35;
+    }
+  </style>
+</body>
+
+</html>
