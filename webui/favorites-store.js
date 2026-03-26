@@ -1,6 +1,9 @@
 import { createStore } from "/js/AlpineStore.js";
 import { callJsonApi } from "/js/api.js";
 
+// Filled star SVG (sized via CSS, uses currentColor for color inheritance)
+const FILLED_STAR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z"/></svg>`;
+
 const model = {
   /** @type {Object<string, number>} chat_id -> favorited_timestamp */
   favorites: {},
@@ -155,10 +158,14 @@ const model = {
         const isFav = this.isFavorite(chatId);
         if (isFav) starBtn.classList.add("active");
 
-        const icon = document.createElement("span");
-        icon.className = "material-symbols-outlined";
-        icon.textContent = isFav ? "star" : "star_outline";
-        starBtn.appendChild(icon);
+        if (isFav) {
+          starBtn.innerHTML = FILLED_STAR_SVG;
+        } else {
+          const icon = document.createElement("span");
+          icon.className = "material-symbols-outlined";
+          icon.textContent = "star_outline";
+          starBtn.appendChild(icon);
+        }
 
         starBtn.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -174,14 +181,22 @@ const model = {
         }
       });
 
-      // Update existing star buttons (in case favorites changed)
       document.querySelectorAll(".fav-star-btn").forEach((btn) => {
         const chatId = btn.dataset.chatId;
         if (!chatId) return;
         const isFav = this.isFavorite(chatId);
-        const icon = btn.querySelector(".material-symbols-outlined");
-        if (icon) {
-          icon.textContent = isFav ? "star" : "star_outline";
+        if (isFav) {
+          if (!btn.querySelector("svg")) {
+            btn.innerHTML = FILLED_STAR_SVG;
+          }
+        } else {
+          if (!btn.querySelector(".material-symbols-outlined")) {
+            btn.innerHTML = "";
+            const icon = document.createElement("span");
+            icon.className = "material-symbols-outlined";
+            icon.textContent = "star_outline";
+            btn.appendChild(icon);
+          }
         }
         btn.classList.toggle("active", isFav);
       });

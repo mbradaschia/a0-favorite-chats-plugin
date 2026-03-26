@@ -14,7 +14,10 @@
   </div>
 
   <style>
-    /* Star button: remove border/box-shadow from btn-icon-action, keep spacing */
+    /* ================================================================
+       FAVORITE STAR BUTTON — Base styles
+       Strip border/shadow from btn-icon-action, keep spacing
+       ================================================================ */
     .fav-star-btn {
       border: none !important;
       box-shadow: none !important;
@@ -27,16 +30,104 @@
       background: transparent !important;
     }
 
-    /* Favorited star: always visible + gold */
-    .device-pointer .chat-container .fav-star-btn.active,
-    .device-pointer .chat-container:hover .fav-star-btn.active {
+    /* SVG star sizing: match material-symbols-outlined default (16px from chat_rename compact) */
+    .fav-star-btn svg {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* ================================================================
+       FAVORITED STAR — Gold color (all devices)
+       No .device-pointer scope so it works everywhere.
+       The SVG uses fill="currentColor" so it inherits this color.
+       ================================================================ */
+    .chat-container .fav-star-btn.active {
       opacity: 1 !important;
       visibility: visible !important;
       pointer-events: auto !important;
       color: #f5a623;
     }
 
-    /* Subtle divider between favorites and non-favorites */
+    /* Hover state for non-active star */
+    .chat-container:hover .fav-star-btn:not(.active) {
+      color: inherit;
+    }
+
+    /* ================================================================
+       POINTER DEVICES (desktop/laptop)
+       Favorited star always visible even without hover.
+       ================================================================ */
+    .device-pointer .chat-container .fav-star-btn.active {
+      display: inline-flex !important;
+    }
+
+    .device-pointer .chat-container:hover .fav-star-btn.active {
+      display: inline-flex !important;
+    }
+
+    /* ================================================================
+       TOUCH DEVICES (mobile/tablet)
+       Detected via @media (hover: none) and (pointer: coarse).
+       A0 hardcodes body.device-pointer and never adds device-touch,
+       so we prefix with body.device-pointer for specificity.
+
+       Favorited stars are ALWAYS visible on mobile (not hidden
+       behind the three-dot menu) so users see favorites at a glance.
+       ================================================================ */
+    @media (hover: none) and (pointer: coarse) {
+      /* Favorited star: always visible on mobile */
+      body.device-pointer .chat-container .fav-star-btn.active {
+        display: inline-flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        color: #f5a623;
+      }
+
+      /* SVG star: larger for touch targets */
+      body.device-pointer .chat-container .fav-star-btn.active svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      /* Non-favorited star: match mobile sizing when visible (via chat-actions-expanded) */
+      body.device-pointer .chat-container .fav-star-btn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+      }
+
+      body.device-pointer .chat-container .fav-star-btn .material-symbols-outlined {
+        font-size: 22px;
+      }
+
+      body.device-pointer .chat-container .fav-star-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    /* ================================================================
+       FALLBACK: .device-touch class (if A0 ever adds it dynamically)
+       ================================================================ */
+    .device-touch .chat-container .fav-star-btn.active {
+      display: inline-flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      color: #f5a623;
+    }
+
+    .device-touch .chat-container .fav-star-btn.active svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ================================================================
+       DIVIDER between favorites and non-favorites
+       ================================================================ */
     .fav-divider {
       list-style: none;
       height: 0;
