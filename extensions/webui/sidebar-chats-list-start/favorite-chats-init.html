@@ -73,12 +73,21 @@
        A0 hardcodes body.device-pointer and never adds device-touch,
        so we prefix with body.device-pointer for specificity.
 
-       Favorited stars are ALWAYS visible on mobile (not hidden
-       behind the three-dot menu) so users see favorites at a glance.
+       On mobile, favorite stars follow the same pattern as other
+       action buttons: hidden by default, shown only when the chat
+       is selected or expanded.
        ================================================================ */
     @media (hover: none) and (pointer: coarse) {
-      /* Favorited star: always visible on mobile */
-      body.device-pointer .chat-container .fav-star-btn.active {
+      /* Hide favorite star by default on mobile (like all action buttons) */
+      body.device-pointer .chat-container .fav-star-btn {
+        display: none !important;
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+      }
+
+      /* Show star when chat is selected */
+      body.device-pointer .chat-container.chat-selected .fav-star-btn.active {
         display: inline-flex !important;
         opacity: 1 !important;
         visibility: visible !important;
@@ -86,38 +95,43 @@
         color: #f5a623;
       }
 
-      /* SVG star: larger for touch targets */
-      body.device-pointer .chat-container .fav-star-btn.active svg {
-        width: 29px;
-        height: 29px;
+      /* Show all buttons (including star) when actions are expanded */
+      body.device-pointer .chat-container.chat-actions-expanded .fav-star-btn {
+        display: inline-flex !important;
       }
 
-      /* Non-favorited star: match mobile sizing when visible (via chat-actions-expanded) */
-      body.device-pointer .chat-container .fav-star-btn {
-        width: 36px;
-        height: 36px;
-        min-width: 36px;
+      body.device-pointer .chat-container.chat-actions-expanded .fav-star-btn.active {
+        color: #f5a623;
+      }
+
+      /* SVG and icon sizing for touch targets */
+      body.device-pointer .chat-container .fav-star-btn svg {
+        width: 29px;
+        height: 29px;
       }
 
       body.device-pointer .chat-container .fav-star-btn .material-symbols-outlined {
         font-size: 22px;
-      }
-
-      body.device-pointer .chat-container .fav-star-btn svg {
-        width: 29px;
-        height: 29px;
       }
     }
 
     /* ================================================================
        FALLBACK: .device-touch class (if A0 ever adds it dynamically)
        ================================================================ */
-    .device-touch .chat-container .fav-star-btn.active {
+    .device-touch .chat-container .fav-star-btn {
+      display: none !important;
+    }
+
+    .device-touch .chat-container.chat-selected .fav-star-btn.active {
       display: inline-flex !important;
       opacity: 1 !important;
       visibility: visible !important;
       pointer-events: auto !important;
       color: #f5a623;
+    }
+
+    .device-touch .chat-container.chat-actions-expanded .fav-star-btn {
+      display: inline-flex !important;
     }
 
     .device-touch .chat-container .fav-star-btn.active svg {
