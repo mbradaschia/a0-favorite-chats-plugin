@@ -78,7 +78,7 @@
        is selected or expanded.
        ================================================================ */
     @media (hover: none) and (pointer: coarse) {
-      /* Hide favorite star by default on mobile (like all action buttons) */
+      /* Hide all star buttons by default on mobile (like all action buttons) */
       body.device-pointer .chat-container .fav-star-btn {
         display: none !important;
         width: 36px;
@@ -86,16 +86,7 @@
         min-width: 36px;
       }
 
-      /* Show star when chat is selected */
-      body.device-pointer .chat-container.chat-selected .fav-star-btn.active {
-        display: inline-flex !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
-        color: #f5a623;
-      }
-
-      /* Show all buttons (including star) when actions are expanded */
+      /* Show star only when three-dot menu is expanded */
       body.device-pointer .chat-container.chat-actions-expanded .fav-star-btn {
         display: inline-flex !important;
       }
@@ -122,19 +113,15 @@
       display: none !important;
     }
 
-    .device-touch .chat-container.chat-selected .fav-star-btn.active {
-      display: inline-flex !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: auto !important;
-      color: #f5a623;
-    }
-
     .device-touch .chat-container.chat-actions-expanded .fav-star-btn {
       display: inline-flex !important;
     }
 
-    .device-touch .chat-container .fav-star-btn.active svg {
+    .device-touch .chat-container.chat-actions-expanded .fav-star-btn.active {
+      color: #f5a623;
+    }
+
+    .device-touch .chat-container .fav-star-btn svg {
       width: 22px;
       height: 22px;
     }
