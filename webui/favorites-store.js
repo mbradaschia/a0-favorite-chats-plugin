@@ -16,9 +16,26 @@ const model = {
   async init() {
     if (this._initialized) return;
     this._initialized = true;
+    this._detectDevice();
     await this.fetchFavorites();
     this._patchApplyContexts();
     this._startObserver();
+  },
+
+  // ── Device detection ─────────────────────────────────────────────
+
+  _detectDevice() {
+    const isTouch = ('ontouchstart' in window)
+      || (navigator.maxTouchPoints > 0)
+      || (window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+
+    if (isTouch) {
+      document.body.classList.add('fav-star-touch');
+      document.body.classList.remove('fav-star-desktop-visible');
+    } else {
+      document.body.classList.add('fav-star-desktop-visible');
+      document.body.classList.remove('fav-star-touch');
+    }
   },
 
   // ── Data fetching ──────────────────────────────────────────────

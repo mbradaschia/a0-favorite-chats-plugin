@@ -16,7 +16,10 @@
   <style>
     /* ================================================================
        FAVORITE STAR BUTTON — Base styles
-       Strip border/shadow from btn-icon-action, keep spacing
+       Strip border/shadow from btn-icon-action, keep spacing.
+       Visibility is controlled by chat_rename plugin rules
+       (all .chat-list-action-btn hidden by default, shown on
+       hover/expanded). We only add color and sizing here.
        ================================================================ */
     .fav-star-btn {
       border: none !important;
@@ -40,13 +43,9 @@
 
     /* ================================================================
        FAVORITED STAR — Gold color (all devices)
-       No .device-pointer scope so it works everywhere.
        The SVG uses fill="currentColor" so it inherits this color.
        ================================================================ */
     .chat-container .fav-star-btn.active {
-      opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: auto !important;
       color: #f5a623;
     }
 
@@ -56,78 +55,43 @@
     }
 
     /* ================================================================
-       POINTER DEVICES (desktop/laptop)
-       Favorited star always visible even without hover.
-       Scoped to @media (hover: hover) to prevent firing on touch.
+       DESKTOP ONLY — Favorited star always visible (no hover needed).
+       Uses .fav-star-desktop-visible class added by JS only on
+       non-touch devices, so it never fires on mobile.
        ================================================================ */
-    @media (hover: hover) and (pointer: fine) {
-      .device-pointer .chat-container .fav-star-btn.active {
-        display: inline-flex !important;
-      }
-
-      .device-pointer .chat-container:hover .fav-star-btn.active {
-        display: inline-flex !important;
-      }
-    }
-
-    /* ================================================================
-       TOUCH DEVICES (mobile/tablet)
-       Detected via @media (hover: none) and (pointer: coarse).
-       A0 hardcodes body.device-pointer and never adds device-touch,
-       so we prefix with body.device-pointer for specificity.
-
-       On mobile, favorite stars follow the same pattern as other
-       action buttons: hidden by default, shown only when the chat
-       is selected or expanded.
-       ================================================================ */
-    @media (hover: none) and (pointer: coarse) {
-      /* Hide ALL star buttons on mobile, including active (favorited) ones */
-      body.device-pointer .chat-container .fav-star-btn,
-      body.device-pointer .chat-container .fav-star-btn.active {
-        display: none !important;
-        width: 36px;
-        height: 36px;
-        min-width: 36px;
-      }
-
-      /* Show star only when three-dot menu is expanded */
-      body.device-pointer .chat-container.chat-actions-expanded .fav-star-btn {
-        display: inline-flex !important;
-      }
-
-      body.device-pointer .chat-container.chat-actions-expanded .fav-star-btn.active {
-        color: #f5a623;
-      }
-
-      /* SVG and icon sizing for touch targets */
-      body.device-pointer .chat-container .fav-star-btn svg {
-        width: 22px;
-        height: 22px;
-      }
-
-      body.device-pointer .chat-container .fav-star-btn .material-symbols-outlined {
-        font-size: 22px;
-      }
-    }
-
-    /* ================================================================
-       FALLBACK: .device-touch class (if A0 ever adds it dynamically)
-       ================================================================ */
-    .device-touch .chat-container .fav-star-btn {
-      display: none !important;
-    }
-
-    .device-touch .chat-container.chat-actions-expanded .fav-star-btn {
+    .fav-star-desktop-visible .chat-container .fav-star-btn.active {
       display: inline-flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
     }
 
-    .device-touch .chat-container.chat-actions-expanded .fav-star-btn.active {
+    /* ================================================================
+       EXPANDED STATE — Gold color for active star when expanded.
+       Visibility of .chat-list-action-btn in expanded state is
+       already handled by chat_rename plugin.
+       ================================================================ */
+    .chat-container.chat-actions-expanded .fav-star-btn.active {
       color: #f5a623;
     }
 
-    .device-touch .chat-container .fav-star-btn svg {
+    /* ================================================================
+       TOUCH DEVICES — Larger tap targets
+       Applied via .fav-star-touch class set by JS on touch devices.
+       ================================================================ */
+    .fav-star-touch .chat-container .fav-star-btn {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+    }
+
+    .fav-star-touch .chat-container .fav-star-btn svg {
       width: 22px;
       height: 22px;
+    }
+
+    .fav-star-touch .chat-container .fav-star-btn .material-symbols-outlined {
+      font-size: 22px;
     }
 
     /* ================================================================
