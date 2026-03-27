@@ -58,13 +58,16 @@
     /* ================================================================
        POINTER DEVICES (desktop/laptop)
        Favorited star always visible even without hover.
+       Scoped to @media (hover: hover) to prevent firing on touch.
        ================================================================ */
-    .device-pointer .chat-container .fav-star-btn.active {
-      display: inline-flex !important;
-    }
+    @media (hover: hover) and (pointer: fine) {
+      .device-pointer .chat-container .fav-star-btn.active {
+        display: inline-flex !important;
+      }
 
-    .device-pointer .chat-container:hover .fav-star-btn.active {
-      display: inline-flex !important;
+      .device-pointer .chat-container:hover .fav-star-btn.active {
+        display: inline-flex !important;
+      }
     }
 
     /* ================================================================
@@ -78,8 +81,9 @@
        is selected or expanded.
        ================================================================ */
     @media (hover: none) and (pointer: coarse) {
-      /* Hide all star buttons by default on mobile (like all action buttons) */
-      body.device-pointer .chat-container .fav-star-btn {
+      /* Hide ALL star buttons on mobile, including active (favorited) ones */
+      body.device-pointer .chat-container .fav-star-btn,
+      body.device-pointer .chat-container .fav-star-btn.active {
         display: none !important;
         width: 36px;
         height: 36px;
